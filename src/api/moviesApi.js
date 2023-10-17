@@ -33,6 +33,9 @@ export const moviesApi = createApi({
         }),
         getMovieSengle: builder.query({
             query: (newArrMoves) => `/discover/movie?api_key=${API_KEY}&with_genres=${newArrMoves}`
+        }),
+        searchMovies: builder.query({
+            query: (query) => `/search/movie?query=${query}&api_key=${API_KEY}`
         })
     })
 })
@@ -45,7 +48,10 @@ export const {useGetActionMoviesQuery,
     useGetRomanceMoviesQuery,
     useGetTopRatedQuery,
     useGetTradingQuery,
-    useGetMovieSengleQuery} =  moviesApi
+    useGetMovieSengleQuery,
+    useSearchMoviesQuery 
+} =  moviesApi
+
 
 
 
