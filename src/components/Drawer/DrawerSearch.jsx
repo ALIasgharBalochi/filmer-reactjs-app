@@ -12,14 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 
 import { moviesContext } from "../../context/moviesContext";
-import {useGetActionMoviesQuery,
-  useGetHorrorMoviesQuery,
-  useGetRomanceMoviesQuery,
-  useGetComedyMoviesQuery,
-  useGetNetflixOriginalsQuery,
-  useGetDocumentariesQuery,
-  useGetTopRatedQuery
-} from '../../api/moviesApi';
+import {useSearchMoviesQuery} from '../../api/moviesApi';
 import StringShrinker from '../StringShrinker.JSX';
 import { base_url } from "../../baseUrlImage";
 
@@ -27,96 +20,15 @@ import { base_url } from "../../baseUrlImage";
 const DrawerSearch = () => { 
     const {openDrawerSearch,setOpenDrawerSearch,setMovieSinglePage} = useContext(moviesContext);
 
-    console.log(setOpenDrawerSearch);
-
-    const [allMovies,setAllMovies] = useState([]);
     const [query , setQuery] = useState({text:""});
-    const [filteredProducts,setFilteredProducts] = useState([]);
     
     const navigate = useNavigate();
 
-    const {data: moviesNetflex = []} = useGetNetflixOriginalsQuery();
-    const {data: movieTopRated = []} = useGetTopRatedQuery();
-    const {data: moviesHorror = []} = useGetHorrorMoviesQuery();
-    const {data: moviesComedy = []} = useGetComedyMoviesQuery();
-    const {data: moviesRomance = []} = useGetRomanceMoviesQuery();
-    const {data: moviesDocumentarie = [],} = useGetDocumentariesQuery();
-    const {data: moviesAction = [],isLoading,isSuccess} = useGetActionMoviesQuery();
-
-
-    useEffect(() => {
-      return () => {
-        setQuery({text: ''})
-      }
-    },[])
-
-    useEffect(() => {
-
-      if (isLoading ) {
-        console.log('please whate ');
-      }else if (isSuccess) {
-
-        const movies = [];
-
-        moviesAction.results.map((movie) => {
-          return movies.unshift(movie)
-         })
-           
-         if (moviesComedy.results ) {
-          moviesComedy.results.map((movie) => {
-            return movies.unshift(movie)
-           })
-         }
-         
-         if (moviesNetflex.results ) {
-          moviesNetflex.results.map((movie) => {
-            return movies.unshift(movie)
-           })
-         }
+    const {data: movies = [],isLoading} = useSearchMoviesQuery(query.text);
    
-          
-         if (movieTopRated.results ) {
-          movieTopRated.results.map((movie) => {
-           return movies.unshift(movie)
-          })
-         } 
-
-         if (moviesHorror.results ) {
-          moviesHorror.results.map((movie) => {
-           return movies.unshift(movie)
-          })
-        }
-          
-        if (moviesRomance.results ) {
-          moviesRomance.results.map((movie) => {
-           return movies.unshift(movie)
-          })
-        }
-
-        if (moviesDocumentarie.results ) {
-          moviesDocumentarie.results.map((movie) => {
-           return movies.unshift(movie)
-          })
-        }
-          
-      setAllMovies(movies)
-      }
-      else {
-        console.log('😭');
-      }
-    },[isLoading])
-
-   
-    const handleSearch = (event) => {
+    
+   const handleSearch = (event) => {
       setQuery({...query,text: event.target.value});
-      setTimeout(() => {
-         const allProducts = allMovies.filter((product) => {
-            return product.title
-            .toLowerCase()
-            .includes(event.target.value.toLowerCase())
-       })
-       setFilteredProducts(allProducts) ;
-      },3000)
        
     }
    
@@ -164,8 +76,8 @@ const DrawerSearch = () => {
           {query.text.length === 0? <Box sx={{margin: '.5rem 2rem ',color: 'orangered'}}>نام فیلم مورد نظر خود را به انگلیسی وارد کنید وارد کنید😊</Box>:
             <Box sx={{display: 'flex',flexDirection: 'column'}}>
             {isLoading? null: (<>
-              {filteredProducts?.length > 1? <>
-               {filteredProducts.map((movie) => (
+              {movies.results?.length > 1? <>
+               {movies.results.map((movie) => (
                 <Card
                  onClick={() => {setMovieSinglePage(movie),
                   setOpenDrawerSearch(false),
