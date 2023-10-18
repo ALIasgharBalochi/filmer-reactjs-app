@@ -6,9 +6,10 @@ import { Link,useNavigate } from 'react-router-dom';
 import { moviesContext } from '../context/moviesContext';
 import StringShrinker from './StringShrinker.JSX';
 import { base_url } from '../baseUrlImage';
-
-const Row = ({title, movies,isLoading}) => {
-  const [moviesState,setMoivesState] = useState([])
+import ButtonSwitched from './ButtonSwItched';
+const Row = ({title, movies,isLoading,series}) => {
+  const [moviesState,setMoivesState] = useState([]);
+  const [switched,setSwitched] = useState(false)
 
   const {setMovieSinglePage} = useContext(moviesContext);
   
@@ -19,14 +20,18 @@ const Row = ({title, movies,isLoading}) => {
      if (isLoading) {
       console.log('please whate ');
      }else{ 
+      if (switched) {
+        setMoivesState(series)
+      }else {
       setMoivesState(movies)
+      }
      }
-  },[isLoading,movies])
+  },[isLoading,movies,switched])
 
   return (
     <>
     <div className='div-text-p'>
-     <p>{title}</p>
+     <p>{title}</p> <ButtonSwitched switched={switched} setSwitched={setSwitched}/>
     </div>
     <div className='div-row-container' >
        <div onClick={() => navigate('/movies_detail/${movie.id}/')} className='div-row-movies'>
@@ -44,8 +49,12 @@ const Row = ({title, movies,isLoading}) => {
               </span>
              </Link>
              <div style={{display: 'flex',flexDirection: 'column',alignItems: 'center',cursor: 'pointer'}} >
-             <p style={{opacity: 1,fontSize: '.8rem',direction: 'ltr'}}><StringShrinker  str={movie.title} n={10} /></p>
-             <p style={{fontSize: '.8rem'}} >{` انتشار :${movie.release_date}`}</p>
+             <p style={{opacity: 1,fontSize: '.8rem',direction: 'ltr'}}>
+             {switched?<StringShrinker  str={movie.name} n={10} /> :<StringShrinker  str={movie.title} n={10} /> }
+             </p>
+             <p style={{fontSize: '.8rem'}} >
+             {switched? ` انتشار :${movie.first_air_date}`:` انتشار :${movie.release_date}`}
+             </p>
              </div>
               </div>
             </div>

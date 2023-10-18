@@ -16,10 +16,10 @@ export const seriesApi = createApi({
      baseQuery: fetchBaseQuery({baseUrl: 'https://api.themoviedb.org/3'}),
     endpoints: builder => ({
         getActionSeries: builder.query({   
-            query: () => `/discover/tv?api_key=${API_KEY}&with_genres=28`
+            query: () => `/discover/tv?api_key=${API_KEY}&with_genres=10759`
         }),
         getTopRatedSeries: builder.query({
-            query: () => `/tv/top_rated?api_key=BASE_URL&language=en-Us'`
+            query: () => `/discover/tv?api_key=${API_KEY}&with_genres=10764'`
         }),
         getNetflexOriginalsSeries: builder.query({
             query: () =>`/discover/tv?api_key=${API_KEY}&width_genres=16`
@@ -28,7 +28,7 @@ export const seriesApi = createApi({
             query: () => `/discover/tv?api_key=${API_KEY}&with_genres=35`
         }),
         getHorrorSeries: builder.query({
-            query: () => `/discover/tv?api_key=${API_KEY}&with_genres=27`
+            query: () => `/discover/tv?api_key=${API_KEY}&with_genres=80`
         }),
         getRomanceSeries: builder.query({
             query: () => `/discover/tv?api_key=${API_KEY}&with_genres=10749`

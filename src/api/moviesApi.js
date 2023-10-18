@@ -1,10 +1,10 @@
 import {createApi,fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
 
-const API_KEY = '19f84e11932abbc79e6d83f82d6d1045';
+const API_KEY = '2299a88bafc986dc2b0e7d573d2ac6b3';
 
 export const moviesApi = createApi({
-    reducerPath: 'api',
+    reducerPath: 'moviesApi',
     baseQuery: fetchBaseQuery({baseUrl: 'https://api.themoviedb.org/3'}),
     endpoints: builder => ({
         getTrading: builder.query({
