@@ -112,10 +112,17 @@
 .div-row-container::-webkit-scrollbar{
   display: none;
 } 
+.div-text-p {
+  display: flex;
+  flex-direction: row;
+  direction: rtl;
+  margin: .5rem 1rem;
+}
 .div-text-p p {
   color: rgb(146, 79, 34);
   margin: .5rem 1rem;
   direction: rtl;
+  
 }
 .div-row-movies {
   width: 150rem;
