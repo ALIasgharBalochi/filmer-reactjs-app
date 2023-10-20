@@ -4,6 +4,7 @@ import {Box,Typography,} from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 
 import {useGetComedyMoviesQuery} from '../api/moviesApi';
+import { useGetComedySeriesQuery } from '../api/seriesApi';
 
 import { moviesContext } from '../context/moviesContext';
 import logo from '../../public/vite.svg';
@@ -16,19 +17,23 @@ import BreadCrumbs from './Breadcrumbs';
 const SinglePageMovies = () => {
 
   const [moviesSuggested,setMovieSuggested] = useState([])
+  const [seriesSuggested,setSeriesSuggested] = useState([])
   const {setOpenBackdrop,setNameFromTrailer,movieSinglePage} = useContext(moviesContext);
-  console.log(movieSinglePage.adult);
+
   const {data: moviesComedy = [],isLoading} = useGetComedyMoviesQuery();
-  
-  
+  const {data: seriesComedy = []} = useGetComedySeriesQuery()
   useEffect(() => {
      if (isLoading) {
       console.log('isLoading');
      }else{
+      const series = seriesComedy.results.filter((series) => {
+        return series.id != movieSinglePage.id;
+      })
       const movies = moviesComedy.results.filter((movie) => {
         return movie.id != movieSinglePage.id;
       })
       setMovieSuggested(movies)
+      setSeriesSuggested(series)
       document.documentElement.scrollTop = 0;
      }
 
@@ -96,7 +101,7 @@ const SinglePageMovies = () => {
             </div>
           </div>
       <div>
-      <Row isLoading={isLoading} title={'پیشنهادی'} movies={moviesSuggested}/>
+      <Row isLoading={isLoading} title={'پیشنهادی'} movies={moviesSuggested} series={seriesSuggested}/>
       </div>
     </div> }
     
