@@ -9,7 +9,7 @@ import { base_url } from '../baseUrlImage';
 import ButtonSwitched from './ButtonSwItched';
 const Row = ({title, movies,isLoading,series}) => {
   const [moviesState,setMoivesState] = useState([]);
-  const [switched,setSwitched] = useState(false)
+   const [switched,setSwitched] = useState(false)
 
   const {setMovieSinglePage} = useContext(moviesContext);
   

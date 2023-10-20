@@ -26,7 +26,7 @@ const App = () => {
   const [movieSinglePage ,setMovieSinglePage] = useState([]);
   const [openDrawerFoter,setOpenDraweFoter] = useState(false);
   const [openDrawerSearch,setOpenDrawerSearch] = useState(false);
-  
+    
    
   const theme = createTheme({
     direction: 'rtl',

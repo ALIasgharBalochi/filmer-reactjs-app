@@ -29,6 +29,7 @@ const Home = () => {
   const {data: moviesRomance = []} = useGetRomanceMoviesQuery();
   const {data: moviesDocumentarie = []} = useGetDocumentariesQuery();
   const {data: moviesAction = [],isLoading} = useGetActionMoviesQuery();
+
   
  // get Series API
  const {data:seriesAction = []} = useGetActionSeriesQuery();
@@ -38,7 +39,8 @@ const Home = () => {
  const {data:seriesNetflex = []} = useGetNetflexOriginalsSeriesQuery();
  const {data:seriesRomance = []} = useGetRomanceSeriesQuery();
  const {data:seriesTopRated = []} = useGetTopRatedSeriesQuery();
-  console.log(seriesAction); 
+  console.log('series',seriesAction); 
+  console.log('movies',moviesAction);
 
   return (
     <>

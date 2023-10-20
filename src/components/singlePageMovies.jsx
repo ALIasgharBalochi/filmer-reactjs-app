@@ -17,7 +17,7 @@ const SinglePageMovies = () => {
 
   const [moviesSuggested,setMovieSuggested] = useState([])
   const {setOpenBackdrop,setNameFromTrailer,movieSinglePage} = useContext(moviesContext);
-
+  console.log(movieSinglePage.adult);
   const {data: moviesComedy = [],isLoading} = useGetComedyMoviesQuery();
   
   
@@ -69,9 +69,16 @@ const SinglePageMovies = () => {
                      </Box>
                   </Grid2>
                   <Grid2 xs={12} sm={12} md={8} lg={8} xl={8} sx={{direction: 'rtl',padding: '0 1rem'}}>
-                     <h4 className='h4-single'>{`سینمایی ${movieSinglePage.title}`}</h4>
+            
+                    
+                    <h4 className='h4-single'>
+                    {movieSinglePage.title?`سینمایی ${movieSinglePage.title}`:`سینمایی ${movieSinglePage.name}` }
+                    </h4>
                      <h5 className='h5-single'><i style={{color: 'orangered',marginLeft: '.2rem'}} className='material-symbols-rounded'>closed_caption</i>{`زبان :${movieSinglePage.original_language}`}</h5>
-                     <h5 className='h5-single'><i style={{color: 'orangered',marginLeft: '.2rem'}} className='material-symbols-rounded'>date_range</i>{`تاریخ انتشار :${movieSinglePage.release_date}`}</h5>
+                     <h5 className='h5-single'>
+                    <i style={{color: 'orangered',marginLeft: '.2rem'}} className='material-symbols-rounded'>date_range</i>
+                    {movieSinglePage.title?`تاریخ انتشار :${movieSinglePage.release_date}`:`تاریخ انتشار ${movieSinglePage.first_air_date}` }
+                    </h5>
                      <h5 className='h5-single'><i style={{color: 'orangered',marginLeft: '.2rem'}} className='material-symbols-rounded'>folder_open</i>{`ژانر ها :${movieSinglePage.genre_ids}`}</h5>
                      <h5 className='h5-single'>{movieSinglePage.vote_average >= 7? <i style={{color: 'green'}}>
                      <span style={{color: 'orangered',marginLeft: '.2rem'}} className='material-symbols-rounded'>
