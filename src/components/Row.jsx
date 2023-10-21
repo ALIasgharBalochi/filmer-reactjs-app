@@ -7,6 +7,7 @@ import { moviesContext } from '../context/moviesContext';
 import StringShrinker from './StringShrinker.JSX';
 import { base_url } from '../baseUrlImage';
 import ButtonSwitched from './ButtonSwItched';
+import SkeletonLoading from './SkeletonLoading';
 const Row = ({title, movies,isLoading,series}) => {
   const [moviesState,setMoivesState] = useState([]);
    const [switched,setSwitched] = useState(false)
@@ -60,7 +61,9 @@ const Row = ({title, movies,isLoading,series}) => {
             </div>
           </div>
          ))}
-       </>: null }
+       </>:  
+       <SkeletonLoading/>
+       }
          </div>
     </div>
     </>
@@ -68,6 +71,17 @@ const Row = ({title, movies,isLoading,series}) => {
 }
 
 export default Row;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
