@@ -109,8 +109,15 @@
   overflow-y: hidden;
   overflow-x: scroll;
 }
+.div-row-container::-webkit-scrollbar-track {
+  display: none; 
+} 
+.div-row-container::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color:rgb(146, 79, 34) !important;
+} 
 .div-row-container::-webkit-scrollbar{
-  display: none;
+  height: 9px;
 } 
 .div-text-p {
   display: flex;
