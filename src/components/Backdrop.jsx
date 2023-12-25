@@ -55,7 +55,7 @@ const BackDrop = () => {
         >
          <Box sx={{width: '100%',display: 'flex',flexDirection: 'column'}}>
           <Box sx={{width: '100%'}}>
-            {trailerUrl?  <YouTube videoId={trailerUrl} opts={opts}/>: <Loading Height={'100%'} text={'please whaie'}/> }
+            {trailerUrl?  <YouTube videoId={trailerUrl} opts={opts}/>: <Loading Height={'100%'} text={'please wait'}/> }
           </Box>
           <Stack direction="row" spacing={2} sx={{display: 'flex',justifyContent: 'center',alignItems: 'center', marginTop: '2rem'}}>
             <Avatar
