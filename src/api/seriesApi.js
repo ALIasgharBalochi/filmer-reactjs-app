@@ -9,10 +9,6 @@ const Headers = {
 
 export const seriesApi = createApi({
     reducerPath: 'seriesApi',
-    // baseQuery: fetchBaseQuery({baseUrl: 'https://api.themoviedb.org/3',prepareHeaders: (headers) => {
-    //     headers.set('Authorization',' Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMjk5YTg4YmFmYzk4NmRjMmIwZTdkNTczZDJhYzZiMyIsInN1YiI6IjY1MmQ3M2E5MzU4ZGE3NWI1ZjdhMGFiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JjQ8oTbgTQom0pHIty_WBUAoKS7tv-WPb5bCAtKhUEI'),
-    //     headers.set('accept','application/json')
-    // }}),
      baseQuery: fetchBaseQuery({baseUrl: 'https://api.themoviedb.org/3'}),
     endpoints: builder => ({
         getActionSeries: builder.query({   
@@ -41,6 +37,14 @@ export const seriesApi = createApi({
         }),
         searchSeries: builder.query({
             query: (query) => `/search/tv?query=${query}&api_key=${API_KEY}`
+        }),
+        getSeriesDetail: builder.query({
+            query(seriesId) {
+                return{
+                  url: `/tv/${seriesId}?language=en-US`,
+                  headers: Headers,
+                }
+            }
         })
     })
 })
@@ -52,6 +56,7 @@ export const {
     useGetHorrorSeriesQuery,
     useGetRomanceSeriesQuery,
     useGetTopRatedSeriesQuery,
-    useGetNetflexOriginalsSeriesQuery
+    useGetNetflexOriginalsSeriesQuery,
+    useGetSeriesDetailQuery
 } = seriesApi
 

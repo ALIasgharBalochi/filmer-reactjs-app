@@ -1,11 +1,16 @@
-import {createApi,fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 
 const API_KEY = '2299a88bafc986dc2b0e7d573d2ac6b3';
 
+const Headers = {
+    Authorization: ' Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMjk5YTg4YmFmYzk4NmRjMmIwZTdkNTczZDJhYzZiMyIsInN1YiI6IjY1MmQ3M2E5MzU4ZGE3NWI1ZjdhMGFiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JjQ8oTbgTQom0pHIty_WBUAoKS7tv-WPb5bCAtKhUEI',
+    accept: 'application/json'
+}
+
 export const moviesApi = createApi({
     reducerPath: 'moviesApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'https://api.themoviedb.org/3'}),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://api.themoviedb.org/3' }),
     endpoints: builder => ({
         getTrading: builder.query({
             query: () => `/trendeng/all/weed?api_key=${API_KEY}&language=en-Us`
@@ -36,11 +41,19 @@ export const moviesApi = createApi({
         }),
         searchMovies: builder.query({
             query: (query) => `/search/movie?query=${query}&api_key=${API_KEY}`
+        }),
+        getMoveDetail: builder.query({
+            query(moviesId) {
+                return{
+                  url: `/movie/${moviesId}?language=en-US`,
+                  headers: Headers,
+                }
+            }
         })
     })
 })
 
-export const {useGetActionMoviesQuery,
+export const { useGetActionMoviesQuery,
     useGetComedyMoviesQuery,
     useGetDocumentariesQuery,
     useGetHorrorMoviesQuery,
@@ -49,13 +62,14 @@ export const {useGetActionMoviesQuery,
     useGetTopRatedQuery,
     useGetTradingQuery,
     useGetMovieSengleQuery,
-    useSearchMoviesQuery 
-} =  moviesApi
+    useSearchMoviesQuery,
+    useGetMoveDetailQuery
+} = moviesApi
 
 
 
 
 
-    // with_networks  213
+// with_networks  213
 
-    // /discover/tv?api_key=${API_KEY}&with_genres=16
+// /discover/tv?api_key=${API_KEY}&with_genres=16

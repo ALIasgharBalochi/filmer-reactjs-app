@@ -3,8 +3,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Box, Typography, } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 
-import { useGetComedyMoviesQuery } from '../api/moviesApi';
-import { useGetComedySeriesQuery } from '../api/seriesApi';
+import { useGetComedyMoviesQuery, useGetMoveDetailQuery } from '../api/moviesApi';
+import { useGetComedySeriesQuery, useGetSeriesDetailQuery } from '../api/seriesApi';
+
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import { moviesContext } from '../context/moviesContext';
 import logo from '../../public/vite.svg';
@@ -15,36 +17,55 @@ import { base_url } from '../baseUrlImage';
 import BreadCrumbs from './Breadcrumbs';
 
 const SinglePageMovies = () => {
+  const { movieID } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  const [movieSinglePage, setMovieSinglePage] = useState([])
   const [moviesSuggested, setMovieSuggested] = useState([])
   const [seriesSuggested, setSeriesSuggested] = useState([])
-  const { setOpenBackdrop, setNameFromTrailer, movieSinglePage } = useContext(moviesContext);
+  const [movieNameTriler,setMovieNameTriler] = useState('')
 
-  const { data: moviesComedy = [], isLoading } = useGetComedyMoviesQuery();
-  const { data: seriesComedy = [] } = useGetComedySeriesQuery()
+  const { setOpenBackdrop, setNameFromTrailer, } = useContext(moviesContext);
+
+  const { data: moviesComedy = [], isLoading: loadingMovieSuggestede } = useGetComedyMoviesQuery();
+  const { data: seriesComedy = [] , isLoading:loadingSeriesSuggested} = useGetComedySeriesQuery()
+
+  const { data: movie, isLoading: loadingMovie } = useGetMoveDetailQuery(movieID);
+  const { data: series, isLoading: loadingSeries  } = useGetSeriesDetailQuery(movieID)
+
   useEffect(() => {
-    if (isLoading) {
+    const m = searchParams.get('type') == 'false'
+
+    if (m) {
+      setMovieSinglePage(movie)
+      setMovieNameTriler(movie?.title)
+    } else {
+      setMovieSinglePage(series)
+      setMovieNameTriler(series?.original_name)
+    }
+  }, [loadingMovie,loadingSeries])
+
+
+  useEffect(() => {
+    if (loadingMovieSuggestede) {
       console.log('isLoading');
     } else {
-      const series = seriesComedy.results.filter((series) => {
-        return series.id != movieSinglePage.id;
+      const series = seriesComedy.results?.filter((series) => {
+        return series?.id != movieSinglePage?.id;
       })
-      const movies = moviesComedy.results.filter((movie) => {
-        return movie.id != movieSinglePage.id;
+      const movies = moviesComedy.results?.filter((movie) => {
+        return movie?.id != movieSinglePage?.id;
       })
       setMovieSuggested(movies)
       setSeriesSuggested(series)
       document.documentElement.scrollTop = 0;
     }
 
-  }, [movieSinglePage])
-
+  }, [movieSinglePage,loadingMovieSuggestede,loadingSeriesSuggested])
 
   return (
     <>
-      {isLoading ?
-        <Loading />
-        :
+      {movieSinglePage ?
         <div>
           <div style={{ direction: 'rtl', margin: '1rem 0', borderBottom: '1px solid gray', marginTop: '3rem' }}>
             <BreadCrumbs />
@@ -58,7 +79,7 @@ const SinglePageMovies = () => {
                     <img src={`${base_url}${movieSinglePage.poster_path}`} className='img-in-Grid' style={{ opacity: 1, margin: '1rem' }} />
                     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                       <Box
-                        onClick={() => { setNameFromTrailer(movieSinglePage.title), setOpenBackdrop(true) }}
+                        onClick={() => { setNameFromTrailer(movieNameTriler), setOpenBackdrop(true) }}
                         sx={{
                           width: '3rem',
                           height: '3rem',
@@ -79,14 +100,16 @@ const SinglePageMovies = () => {
 
 
                     <h4 className='h4-single'>
-                      {movieSinglePage.title ? `سینمایی ${movieSinglePage.title}` : `سینمایی ${movieSinglePage.name}`}
+                      {movieSinglePage.title ? `سینمایی ${movieSinglePage.title}` : `سینمایی ${movieSinglePage.original_name}`}
                     </h4>
                     <h5 className='h5-single'><i style={{ color: 'orangered', marginLeft: '.2rem' }} className='material-symbols-rounded'>closed_caption</i>{`زبان :${movieSinglePage.original_language}`}</h5>
                     <h5 className='h5-single'>
                       <i style={{ color: 'orangered', marginLeft: '.2rem' }} className='material-symbols-rounded'>date_range</i>
                       {movieSinglePage.title ? `تاریخ انتشار :${movieSinglePage.release_date}` : `تاریخ انتشار ${movieSinglePage.first_air_date}`}
                     </h5>
-                    <h5 className='h5-single'><i style={{ color: 'orangered', marginLeft: '.2rem' }} className='material-symbols-rounded'>folder_open</i>{`ژانر ها :${movieSinglePage.genre_ids}`}</h5>
+                    <h5 className='h5-single'><i style={{ color: 'orangered', marginLeft: '.2rem' }} className='material-symbols-rounded'>folder_open</i>ژانر ها : {movieSinglePage.genres?.map((g, index) => (
+                      <p>{g.name},</p>
+                    ))}</h5>
                     <h5 className='h5-single'>{movieSinglePage.vote_average >= 7 ? <i style={{ color: 'green' }}>
                       <span style={{ color: 'orangered', marginLeft: '.2rem' }} className='material-symbols-rounded'>
                         trending_up
@@ -103,9 +126,12 @@ const SinglePageMovies = () => {
             </div>
           </div>
           <div>
-            <Row isLoading={isLoading} title={'پیشنهادی'} movies={moviesSuggested} series={seriesSuggested} />
+            <Row isLoading={loadingMovieSuggestede} title={'پیشنهادی'} movies={moviesSuggested} series={seriesSuggested} />
           </div>
-        </div>}
+        </div>
+        :
+        <Loading />
+        }
 
     </>
 

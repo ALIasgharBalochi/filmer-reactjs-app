@@ -26,6 +26,7 @@ const App = () => {
   const [movieSinglePage ,setMovieSinglePage] = useState([]);
   const [openDrawerFoter,setOpenDraweFoter] = useState(false);
   const [openDrawerSearch,setOpenDrawerSearch] = useState(false);
+  const [switched,setSwitched] = useState(false)
     
    
   const theme = createTheme({
@@ -57,6 +58,8 @@ const App = () => {
       setOpenDraweFoter,
       openDrawerSearch,
       setOpenDrawerSearch,
+      switched,
+      setSwitched
     }}>
 
       <ThemeProvider theme={theme}>

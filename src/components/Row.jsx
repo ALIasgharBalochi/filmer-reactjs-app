@@ -1,22 +1,21 @@
 import React, {useContext,useEffect,useState} from 'react'
 
 
-import { Link,useNavigate } from 'react-router-dom';
+import { Link,useNavigate, useSearchParams } from 'react-router-dom';
 
 import { moviesContext } from '../context/moviesContext';
 import StringShrinker from './StringShrinker.JSX';
 import { base_url } from '../baseUrlImage';
 import ButtonSwitched from './ButtonSwItched';
 import SkeletonLoading from './SkeletonLoading';
+
 const Row = ({title, movies,isLoading,series}) => {
+
   const [moviesState,setMoivesState] = useState([]);
-   const [switched,setSwitched] = useState(false)
+  const [switched,setSwitched] = useState(false)
 
   const {setMovieSinglePage} = useContext(moviesContext);
   
-  
-  const navigate = useNavigate();
-
   useEffect(() => {
      if (isLoading) {
       console.log('please whate ');
@@ -31,11 +30,11 @@ const Row = ({title, movies,isLoading,series}) => {
 
   return (
     <>
-    <div className='div-text-p'>
+    <div className='div-text-p pointer' >
      <p>{title}</p> <ButtonSwitched switched={switched} setSwitched={setSwitched}/>
     </div>
     <div className='div-row-container' >
-       <div onClick={() => navigate('/movies_detail/${movie.id}/')} className='div-row-movies'>
+       <div  className='div-row-movies'>
        {moviesState?.length >= 1? <>
         {moviesState.map(movie => (
           <div className='div-middle-contained'
@@ -44,8 +43,8 @@ const Row = ({title, movies,isLoading,series}) => {
            <img key={movie.id} src={`${base_url}${movie.poster_path}`} />
             <div className='div-middle'>
               <div className='div-text-middle'>
-              <Link style={{textDecoration: 'none'}}  to={`/movies_detail/${movie.id}/`}>
-              <span class="material-symbols-rounded" style={{color: 'orangered'}}>
+              <Link style={{textDecoration: 'none'}}  to={`/movies_detail/${movie.id}/?type=${switched}`}>
+              <span class="material-symbols-rounded"  style={{color: 'orangered'}}>
                 play_circle
               </span>
              </Link>
