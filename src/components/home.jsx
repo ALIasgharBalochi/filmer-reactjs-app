@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 
 import {useGetActionMoviesQuery,
   useGetHorrorMoviesQuery,
@@ -30,7 +30,6 @@ const Home = () => {
   const {data: moviesDocumentarie = []} = useGetDocumentariesQuery();
   const {data: moviesAction = [],isLoading} = useGetActionMoviesQuery();
 
-  
  // get Series API
  const {data:seriesAction = []} = useGetActionSeriesQuery();
  const {data:sereisComedy = []} = useGetComedySeriesQuery();
