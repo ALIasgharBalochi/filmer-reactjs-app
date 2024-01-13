@@ -49,18 +49,18 @@ const SinglePageMovies = () => {
     if (loadingMovieSuggestede) {
       console.log('isLoading');
     } else {
-      const series = seriesComedy.results?.filter((series) => {
-        return series?.id != movieSinglePage?.id;
+      const seriess = seriesComedy.results?.filter((serie) => {
+        return serie?.id != series?.id;
       })
-      const movies = moviesComedy.results?.filter((movie) => {
-        return movie?.id != movieSinglePage?.id;
+      const movies = moviesComedy.results?.filter((movies) => {
+        return movies?.id != movie?.id;
       })
       setMovieSuggested(movies)
-      setSeriesSuggested(series)
+      setSeriesSuggested(seriess)
       document.documentElement.scrollTop = 0;
     }
 
-  }, [movieSinglePage, loadingMovieSuggestede, loadingSeriesSuggested])
+  }, [loadingMovie,loadingSeries, loadingMovieSuggestede, loadingSeriesSuggested])
 
   return (
     <>
@@ -81,7 +81,7 @@ const SinglePageMovies = () => {
             <SeriesDetail movieSinglePage={series} setNameFromTrailer={setNameFromTrailer} movieNameTriler={movieNameTriler} setOpenBackdrop={setOpenBackdrop} />             
         }
         <div>
-          {/* <Row isLoading={loadingMovieSuggestede} title={'پیشنهادی'} movies={moviesSuggested} series={seriesSuggested} /> */}
+          <Row isLoading={loadingMovieSuggestede} title={'پیشنهادی'} movies={moviesSuggested} series={seriesSuggested} />
         </div>
       </div>
 
