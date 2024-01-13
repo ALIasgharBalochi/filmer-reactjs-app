@@ -1,11 +1,9 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useGetRomanceMoviesQuery } from '../api/moviesApi';
 import { Button } from '@mui/material';
 
-import { useNavigate, Link } from 'react-router-dom';
-
-import { moviesContext } from '../context/moviesContext';
+import { Link } from 'react-router-dom';
 import StringShrinker from './StringShrinker.JSX';
 import { base_url } from '../baseUrlImage'
 
@@ -13,12 +11,7 @@ const Banner = () => {
 
   const [movieBanner, setMovieBanner] = useState([]);
 
-  const { setMovieSinglePage } = useContext(moviesContext);
-
-
   const { data: movies, isLoading } = useGetRomanceMoviesQuery();
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoading) {
@@ -31,7 +24,6 @@ const Banner = () => {
 
 
   }, [isLoading])
-
   return (
     <div
       className='Banner'
@@ -49,7 +41,6 @@ const Banner = () => {
         <div className='movie-control'>
           <Link style={{ textDecoration: 'none' }} to={`/movies_detail/${movieBanner.id}/?type=false`}>
             <Button
-              // onClick={() => {setMovieSinglePage(movieBanner),navigate(`/movies_detail/${movieBanner.id}/`)}}
               sx={{ color: 'whitesmoke', ':hover': { backgroundColor: '#343232', color: 'orangered' }, backgroundColor: '#343232' }} variant='text'>مشاهده</Button>
             <Button sx={{ color: 'whitesmoke', borderColor: '#343232', ':hover': { borderColor: 'orangered' }, margin: '0 0 0 .3rem' }} variant='outlined'>اضافه به لیست</Button>
           </Link>
@@ -60,5 +51,4 @@ const Banner = () => {
     </div>
   )
 }
-
 export default Banner;

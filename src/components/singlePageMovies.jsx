@@ -1,66 +1,40 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import { useGetComedyMoviesQuery, useGetMoveDetailQuery } from '../api/moviesApi';
-import { useGetComedySeriesQuery, useGetSeriesDetailQuery } from '../api/seriesApi';
+import { useGetMoveDetailQuery } from '../api/moviesApi';
+import { useGetSeriesDetailQuery } from '../api/seriesApi';
 
 import { useParams, useSearchParams } from 'react-router-dom';
 
 import { moviesContext } from '../context/moviesContext';
-import Row from './Row';
 import Loading from './Loading';
 import BreadCrumbs from './Breadcrumbs';
 
 import MoviesDetai from './Details/MoviesDetai';
 import SeriesDetail from './Details/seriesDetail';
+import SuggestedComponent from './SuggestedComponent/SuggestedComponent';
+
 const SinglePageMovies = () => {
 
   const { movieID } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-  const [movieSinglePage, setMovieSinglePage] = useState([])
-  const [moviesSuggested, setMovieSuggested] = useState([])
-  const [seriesSuggested, setSeriesSuggested] = useState([])
   const [movieNameTriler, setMovieNameTriler] = useState('')
 
   const { setOpenBackdrop, setNameFromTrailer, } = useContext(moviesContext);
 
-  const { data: moviesComedy = [], isLoading: loadingMovieSuggestede } = useGetComedyMoviesQuery();
-  const { data: seriesComedy = [], isLoading: loadingSeriesSuggested } = useGetComedySeriesQuery()
-
   const { data: movie = [], isLoading: loadingMovie } = useGetMoveDetailQuery(movieID);
   const { data: series = [], isLoading: loadingSeries } = useGetSeriesDetailQuery(movieID)
 
-  // const customLoadig = movieSinglePage?.length == 0;
   const checkType = searchParams.get('type') == 'false';
 
-  // useEffect(() => {
-  //   const m = searchParams.get('type') == 'false'
-
-  //   if (m) {
-  //     setMovieSinglePage(movie)
-  //     setMovieNameTriler(movie?.title)
-  //   } else {
-  //     setMovieSinglePage(series)
-  //     setMovieNameTriler(series?.original_name)
-  //   }
-  // }, [loadingMovie,loadingSeries])
-
   useEffect(() => {
-    if (loadingMovieSuggestede) {
-      console.log('isLoading');
+    const m = searchParams.get('type') == 'false'
+    if (m) {
+      setMovieNameTriler(movie?.title)
     } else {
-      const seriess = seriesComedy.results?.filter((serie) => {
-        return serie?.id != series?.id;
-      })
-      const movies = moviesComedy.results?.filter((movies) => {
-        return movies?.id != movie?.id;
-      })
-      setMovieSuggested(movies)
-      setSeriesSuggested(seriess)
-      document.documentElement.scrollTop = 0;
+      setMovieNameTriler(series?.original_name)
     }
-
-  }, [loadingMovie,loadingSeries, loadingMovieSuggestede, loadingSeriesSuggested])
+  }, [loadingMovie, loadingSeries])
 
   return (
     <>
@@ -78,16 +52,11 @@ const SinglePageMovies = () => {
           loadingSeries ?
             <Loading Height={'100vh'} text={'Loading'} />
             :
-            <SeriesDetail movieSinglePage={series} setNameFromTrailer={setNameFromTrailer} movieNameTriler={movieNameTriler} setOpenBackdrop={setOpenBackdrop} />             
+            <SeriesDetail movieSinglePage={series} setNameFromTrailer={setNameFromTrailer} movieNameTriler={movieNameTriler} setOpenBackdrop={setOpenBackdrop} />
         }
-        <div>
-          <Row isLoading={loadingMovieSuggestede} title={'پیشنهادی'} movies={moviesSuggested} series={seriesSuggested} />
-        </div>
+        <SuggestedComponent loadingMovie={loadingMovie} loadingSeries={loadingSeries} movie={movie} series={series} />
       </div>
-
     </>
-
   )
 }
-
 export default SinglePageMovies;

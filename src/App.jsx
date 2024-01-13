@@ -23,10 +23,8 @@ const App = () => {
   const [openGener, setOpenGener] = useState(null);
   const [openBackdrop,setOpenBackdrop] = useState(false);
   const [nameFromTrailer,setNameFromTrailer] = useState('');
-  const [movieSinglePage ,setMovieSinglePage] = useState([]);
   const [openDrawerFoter,setOpenDraweFoter] = useState(false);
   const [openDrawerSearch,setOpenDrawerSearch] = useState(false);
-  const [switched,setSwitched] = useState(false)
     
    
   const theme = createTheme({
@@ -44,8 +42,6 @@ const App = () => {
 
   return (
     <moviesContext.Provider value={{
-      movieSinglePage,
-      setMovieSinglePage,
       openMenu,
       setOpenMenu,
       openGener,
@@ -58,8 +54,6 @@ const App = () => {
       setOpenDraweFoter,
       openDrawerSearch,
       setOpenDrawerSearch,
-      switched,
-      setSwitched
     }}>
 
       <ThemeProvider theme={theme}>
