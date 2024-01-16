@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import { createTheme,ThemeProvider} from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material";
 import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from "@emotion/react";
 import createCache from '@emotion/cache';
-import {prefixer} from "stylis";
+import { prefixer } from "stylis";
 
-import {Outlet} from 'react-router-dom'
+import { Outlet, useSearchParams } from 'react-router-dom'
 
 import Navbar from './components/Navbar/Navbar';
 import MiniFoter from './components/Foter/miniFoter';
@@ -18,15 +18,27 @@ import { moviesContext } from "./context/moviesContext";
 
 
 const App = () => {
-  
-  const [openMenu,setOpenMenu] = useState(null);
+
+
+  const [openMenu, setOpenMenu] = useState(null);
   const [openGener, setOpenGener] = useState(null);
-  const [openBackdrop,setOpenBackdrop] = useState(false);
-  const [nameFromTrailer,setNameFromTrailer] = useState('');
-  const [openDrawerFoter,setOpenDraweFoter] = useState(false);
-  const [openDrawerSearch,setOpenDrawerSearch] = useState(false);
-    
-   
+  const [openBackdrop, setOpenBackdrop] = useState(false);
+  const [nameFromTrailer, setNameFromTrailer] = useState('');
+  const [openDrawerFoter, setOpenDraweFoter] = useState(false);
+  const [openDrawerSearch, setOpenDrawerSearch] = useState(false);
+
+  useEffect(() => {
+
+    const [searchParams] = useSearchParams()
+    const requestToken = searchParams.get('request_token')
+    if (requestToken) {
+      console.log(requestToken);
+    }else {
+      console.log('you not have token please login in my app');
+    }
+
+  }, [])
+
   const theme = createTheme({
     direction: 'rtl',
     typography: {
@@ -35,10 +47,10 @@ const App = () => {
   })
   const caCheRTL = createCache({
     key: 'muirtl',
-    stylisPlugins: [prefixer,rtlPlugin]
+    stylisPlugins: [prefixer, rtlPlugin]
   })
 
-  
+
 
   return (
     <moviesContext.Provider value={{
@@ -57,18 +69,18 @@ const App = () => {
     }}>
 
       <ThemeProvider theme={theme}>
-      <Navbar/> 
-      <Outlet/>  
-       <MiniFoter/>
-      <DrawerFoter/>
-      <BackDrop/>
+        <Navbar />
+        <Outlet />
+        <MiniFoter />
+        <DrawerFoter />
+        <BackDrop />
       </ThemeProvider>
       <CacheProvider value={caCheRTL}>
-        <ThemeProvider theme={theme}> 
-           <DrawerSearch/> 
-          </ThemeProvider> 
+        <ThemeProvider theme={theme}>
+          <DrawerSearch />
+        </ThemeProvider>
       </CacheProvider>
-    </moviesContext.Provider> 
+    </moviesContext.Provider>
   )
 }
 

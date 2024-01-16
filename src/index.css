@@ -289,6 +289,36 @@ height: 100%;
   align-items: center;
 }
 
+.div-container-regestring{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.div-regestring{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.h1-regestring{
+  color: whitesmoke;
+}
+.div-regestring > button{
+  padding: .5rem 1rem;
+  background-color: rgb(255, 123, 0);
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  color: whitesmoke;
+  font-size: medium; 
+}
+.Link-regestring{
+  color: whitesmoke;
+}
 @media (min-width: 900px){
   .img-in-Grid{
     width: 50% !important;
@@ -300,7 +330,9 @@ height: 100%;
   .div-miniFoter-container{
     display: none;
   }
-
+  .h1-regestring{
+    font-size: small;
+  }
 }
 
 @media (min-width: 665px) {
