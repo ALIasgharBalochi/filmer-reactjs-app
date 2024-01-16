@@ -2,6 +2,11 @@ import {createApi,fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
 const API_KEY = '2299a88bafc986dc2b0e7d573d2ac6b3';
 
+const Headers = {
+    Authorization: ' Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMjk5YTg4YmFmYzk4NmRjMmIwZTdkNTczZDJhYzZiMyIsInN1YiI6IjY1MmQ3M2E5MzU4ZGE3NWI1ZjdhMGFiMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JjQ8oTbgTQom0pHIty_WBUAoKS7tv-WPb5bCAtKhUEI',
+    accept: 'application/json'
+}
+
 export const seriesApi = createApi({
     reducerPath: 'seriesApi',
     baseQuery: fetchBaseQuery({baseUrl: 'https://api.themoviedb.org/3'}),
@@ -37,10 +42,7 @@ export const seriesApi = createApi({
             query(seriesId) {
                 return{
                   url: `/tv/${seriesId}?language=en-US`,
-                  headers:{
-                   Authorization: process.env.AUTHORIZATION,
-                   accept: process.env.ACCEPT
-                  },
+                  headers: Headers
                 }
             }
         })
