@@ -27,13 +27,15 @@ const App = () => {
   const [openDrawerFoter, setOpenDraweFoter] = useState(false);
   const [openDrawerSearch, setOpenDrawerSearch] = useState(false);
 
+
+  const [searchParams] = useSearchParams()
+
   useEffect(() => {
 
-    const [searchParams] = useSearchParams()
     const requestToken = searchParams.get('request_token')
     if (requestToken) {
       console.log(requestToken);
-    }else {
+    } else {
       console.log('you not have token please login in my app');
     }
 

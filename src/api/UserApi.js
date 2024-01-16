@@ -22,15 +22,15 @@ export const User = createApi({
         }
       }
     }),
-    getSession: builder.mutation({
-      query(request_token) {
-        return{
-          url: 'https://api.themoviedb.org/3/authentication/session/new',
-          headers:HeadersSession,
-          body: request_token 
-        }
-      }
-    }),
+    // getSession: builder.mutation({
+    //   query(request_token) {
+    //     return{
+    //       url: 'https://api.themoviedb.org/3/authentication/session/new',
+    //       headers:HeadersSession,
+    //       body: request_token 
+    //     }
+    //   }
+    // }),
     getUserAccountDetail: builder.query({
       query: (session_id) => `${process.env.ACCOUNT_ID}?session_id=${session_id}`
     }),
